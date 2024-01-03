@@ -1,4 +1,4 @@
-// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
+// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan. path by Victor N. Skurikhin.
 // License: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 package cake_test
@@ -10,13 +10,17 @@ import (
 	"gopl.io/ch8/cake"
 )
 
-var defaults = cake.Shop{
-	Verbose:      testing.Verbose(),
-	Cakes:        20,
-	BakeTime:     10 * time.Millisecond,
-	NumIcers:     1,
-	IceTime:      10 * time.Millisecond,
-	InscribeTime: 10 * time.Millisecond,
+var defaults cake.Shop
+
+func Init() {
+	defaults = cake.Shop{
+		Verbose:      testing.Verbose(),
+		Cakes:        20,
+		BakeTime:     10 * time.Millisecond,
+		NumIcers:     1,
+		IceTime:      10 * time.Millisecond,
+		InscribeTime: 10 * time.Millisecond,
+	}
 }
 
 func Benchmark(b *testing.B) {
