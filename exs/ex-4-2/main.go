@@ -17,25 +17,35 @@ import (
 	"os"
 )
 
-var stride = 1024
+var stride = 4096
+
+//goland:noinspection GoUnhandledErrorResult
+var PrintlnStderr = func(err error) { fmt.Fprintln(os.Stderr, err) }
+
+func IsErrEOF(err error, unknownErrHook func()) bool {
+
+	switch {
+	case err == nil:
+		return false
+	case err == io.EOF:
+		return true
+	case err != io.ErrUnexpectedEOF:
+		unknownErrHook()
+		return true
+	}
+	return false
+}
 
 func ReadBytes(file *os.File) []byte {
 
-	var result []byte
 	buffer := make([]byte, 0, stride)
 	reader := bufio.NewReader(file)
+	result := make([]byte, 0, stride)
 	for {
 		n, err := io.ReadFull(reader, buffer[:cap(buffer)])
 		buffer = buffer[:n]
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			if err != io.ErrUnexpectedEOF {
-				//goland:noinspection GoUnhandledErrorResult
-				fmt.Fprintln(os.Stderr, err)
-				break
-			}
+		if IsErrEOF(err, func() { PrintlnStderr(err) }) {
+			break
 		}
 		result = append(result, buffer...)
 	}
@@ -46,25 +56,28 @@ func readStdin() []byte {
 	return ReadBytes(os.Stdin)
 }
 
-func main() {
-	argsWithoutProg := os.Args[1:]
-	b := readStdin()
-	if len(argsWithoutProg) < 1 {
-		fmt.Printf("%x\n", sha256.Sum256(b))
-	} else {
-		for _, s := range argsWithoutProg {
-			switch s {
-			case "-sha256":
-				fmt.Printf("%x\n", sha256.Sum256(b))
-				break
-			case "-sha384":
-				fmt.Printf("%x\n", sha512.Sum384(b))
-				break
-			case "-sha512":
-				fmt.Printf("%x\n", sha512.Sum512(b))
-				break
-			}
+func caseByArgs(argsWithoutProg []string, buffer []byte) {
+
+	for _, s := range argsWithoutProg {
+		switch s {
+		default:
+			fmt.Printf("%x\n", sha256.Sum256(buffer))
+		case "-sha384":
+			fmt.Printf("%x\n", sha512.Sum384(buffer))
+		case "-sha512":
+			fmt.Printf("%x\n", sha512.Sum512(buffer))
 		}
+	}
+}
+
+func main() {
+
+	argsWithoutProg := os.Args[1:]
+	buffer := readStdin()
+	if len(argsWithoutProg) < 1 {
+		fmt.Printf("%x\n", sha256.Sum256(buffer))
+	} else {
+		caseByArgs(argsWithoutProg, buffer)
 	}
 }
 

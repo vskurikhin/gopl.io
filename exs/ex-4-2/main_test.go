@@ -20,6 +20,12 @@ func TestWithoutArgs(t *testing.T) {
 	main()
 }
 
+func TestIsErrEOFWithNil(t *testing.T) {
+	if IsErrEOF(nil, func() {}) {
+		panic("IsErrEOF returned true for nil")
+	}
+}
+
 func TestArgsSHA256(t *testing.T) {
 	oldArgs := os.Args
 	defer func() { os.Args = oldArgs }()
