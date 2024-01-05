@@ -14,9 +14,9 @@ import (
 )
 
 // Reverse reverses a slice of ints in place.
-func Reverse(s []int) {
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
+func Reverse[Element any](elements []Element) {
+	for i, j := 0, len(elements)-1; i < j; i, j = i+1, j-1 {
+		elements[i], elements[j] = elements[j], elements[i]
 	}
 }
 
@@ -36,13 +36,13 @@ func rotateLeftNaive(s []int, r uint) {
 	}
 }
 
-func RotateLeft(s []int, r uint) {
-	m := int(r) % len(s)
+func RotateLeft[Element any](elements []Element, r uint) {
+	m := int(r) % len(elements)
 	if m != 0 {
-		left := make([]int, m)
-		copy(left, s[:m])
-		copy(s, s[m:])
-		copy(s[len(s)-m:], left)
+		left := make([]Element, m)
+		copy(left, elements[:m])
+		copy(elements, elements[m:])
+		copy(elements[len(elements)-m:], left)
 	}
 }
 
@@ -62,15 +62,15 @@ func rotateRightNaive(s []int, r uint) {
 	}
 }
 
-func RotateRight(s []int, r uint) {
-	m := int(r) % len(s)
+func RotateRight[Element any](elements []Element, r uint) {
+	m := int(r) % len(elements)
 	if m != 0 {
-		right := make([]int, m)
-		copy(right, s[len(s)-m:])
-		for i := len(s) - 1; i >= m; i-- {
-			s[i] = s[i-m]
+		right := make([]Element, m)
+		copy(right, elements[len(elements)-m:])
+		for i := len(elements) - 1; i >= m; i-- {
+			elements[i] = elements[i-m]
 		}
-		copy(s, right)
+		copy(elements, right)
 	}
 }
 
