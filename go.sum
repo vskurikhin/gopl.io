@@ -1,10 +1,4 @@
-github.com/vskurikhin/gotool v0.0.0-20240105075929-250c746fc905 h1:hI/aLpimwQudBGI1t3CMP/mqNYLtcaVUq7Q4o7Iu1Kg=
-github.com/vskurikhin/gotool v0.0.0-20240105075929-250c746fc905/go.mod h1:QwZMRcAMftBcuObWohIVoXbxewf0hXHKxd0uR56c0/s=
-github.com/vskurikhin/gotool v0.0.0-20240105082028-c0fcdff61d51 h1:wYOQbldf8xq/gzt+19BjoCFLLm7wIucX3gwwlz9wjx0=
-github.com/vskurikhin/gotool v0.0.0-20240105082028-c0fcdff61d51/go.mod h1:QwZMRcAMftBcuObWohIVoXbxewf0hXHKxd0uR56c0/s=
 github.com/vskurikhin/gotool v0.0.0-20240105082849-398ef8bedcbd h1:uQre+nFKmVLeVshW4l62a2/uwGRpFdewmuRGZQYSzBk=
 github.com/vskurikhin/gotool v0.0.0-20240105082849-398ef8bedcbd/go.mod h1:QwZMRcAMftBcuObWohIVoXbxewf0hXHKxd0uR56c0/s=
-golang.org/x/exp v0.0.0-20220414153411-bcd21879b8fd h1:zVFyTKZN/Q7mNRWSs1GOYnHM9NiFSJ54YVRsD0rNWT4=
-golang.org/x/exp v0.0.0-20220414153411-bcd21879b8fd/go.mod h1:lgLbSvA5ygNOMpwM/9anMpWVlVJ7Z+cHWq/eFuinpGE=
 golang.org/x/net v0.0.0-20210929193557-e81a3d93ecf6 h1:Z04ewVs7JhXaYkmDhBERPi41gnltfQpMWDnTnQbaCqk=
 golang.org/x/net v0.0.0-20210929193557-e81a3d93ecf6/go.mod h1:9nx3DQGgdP8bBQD5qxJ1jj9UTztislL4KSBs9R2vV5Y=
