@@ -17,8 +17,23 @@ import (
 	"unicode/utf8"
 )
 
+type Сategory int
+
+const (
+	Control Сategory = iota
+	Letter
+	Mark
+	Number
+	Space
+	Symbol
+)
+
+func (d Сategory) String() string {
+	return [...]string{"Control", "Letter", "Mark", "Number", "Space", "Symbol"}[d]
+}
+
 func main() {
-	counts := make(map[rune]int)    // counts of Unicode characters
+	counts := make(map[string]int)  // counts of Unicode characters
 	var utflen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
 	invalid := 0                    // count of invalid UTF-8 characters
 
@@ -32,17 +47,25 @@ func main() {
 			fmt.Fprintf(os.Stderr, "charcount: %v\n", err)
 			os.Exit(1)
 		}
-		unicode.IsLetter(r)
-		if unicode.IsLetter(r) {
-			invalid++
-			continue
+		switch {
+		case unicode.IsControl(r):
+			counts[Control.String()]++
+		case unicode.IsLetter(r):
+			counts[Letter.String()]++
+		case unicode.IsMark(r):
+			counts[Mark.String()]++
+		case unicode.IsNumber(r):
+			counts[Number.String()]++
+		case unicode.IsSpace(r):
+			counts[Space.String()]++
+		case unicode.IsSymbol(r):
+			counts[Symbol.String()]++
 		}
-		counts[r]++
 		utflen[n]++
 	}
-	fmt.Printf("rune\tcount\n")
+	fmt.Printf("Сategory\tcount\n")
 	for c, n := range counts {
-		fmt.Printf("%q\t%d\n", c, n)
+		fmt.Printf("%s\t%d\n", c, n)
 	}
 	fmt.Print("\nlen\tcount\n")
 	for i, n := range utflen {

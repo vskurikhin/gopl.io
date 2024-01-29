@@ -16,7 +16,7 @@ func TestMain(m *testing.M) {
 func TestWithoutArgs(t *testing.T) {
 	oldArgs := os.Args
 	defer func() { os.Args = oldArgs }()
-	os.Args = []string{"ex-4-4"}
+	os.Args = []string{"ex-4-8"}
 	main()
 }
 
