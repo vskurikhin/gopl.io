@@ -17,12 +17,27 @@ import (
 	"unicode/utf8"
 )
 
-func main() {
-	counts := make(map[rune]int)    // counts of Unicode characters
-	var utflen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
-	invalid := 0                    // count of invalid UTF-8 characters
+type Сategory int
 
-	in := bufio.NewReader(os.Stdin)
+const (
+	Control Сategory = iota
+	Letter
+	Mark
+	Number
+	Space
+	Symbol
+)
+
+func (c Сategory) String() string {
+	return [...]string{"Control", "Letter", "Mark", "Number", "Space", "Symbol"}[c]
+}
+
+func CharCount(reader io.Reader) (map[string]int, []int) {
+
+	counts := make(map[string]int)  // counts of Unicode characters
+	var utfLen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
+
+	in := bufio.NewReader(reader)
 	for {
 		r, n, err := in.ReadRune() // returns rune, nbytes, error
 		if err == io.EOF {
@@ -32,26 +47,36 @@ func main() {
 			fmt.Fprintf(os.Stderr, "charcount: %v\n", err)
 			os.Exit(1)
 		}
-		unicode.IsLetter(r)
-		if unicode.IsLetter(r) {
-			invalid++
-			continue
+		switch {
+		case unicode.IsControl(r):
+			counts[Control.String()]++
+		case unicode.IsLetter(r):
+			counts[Letter.String()]++
+		case unicode.IsMark(r):
+			counts[Mark.String()]++
+		case unicode.IsNumber(r):
+			counts[Number.String()]++
+		case unicode.IsSpace(r):
+			counts[Space.String()]++
+		case unicode.IsSymbol(r):
+			counts[Symbol.String()]++
 		}
-		counts[r]++
-		utflen[n]++
+		utfLen[n]++
 	}
-	fmt.Printf("rune\tcount\n")
+	return counts, utfLen[:]
+}
+
+func main() {
+	counts, utfLen := CharCount(os.Stdin)
+	fmt.Printf("category\tcount\n")
 	for c, n := range counts {
-		fmt.Printf("%q\t%d\n", c, n)
+		fmt.Printf("%s\t\t%d\n", c, n)
 	}
 	fmt.Print("\nlen\tcount\n")
-	for i, n := range utflen {
+	for i, n := range utfLen {
 		if i > 0 {
 			fmt.Printf("%d\t%d\n", i, n)
 		}
-	}
-	if invalid > 0 {
-		fmt.Printf("\n%d invalid UTF-8 characters\n", invalid)
 	}
 }
 
