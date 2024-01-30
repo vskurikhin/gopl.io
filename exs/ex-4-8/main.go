@@ -32,10 +32,10 @@ func (c Сategory) String() string {
 	return [...]string{"Control", "Letter", "Mark", "Number", "Space", "Symbol"}[c]
 }
 
-func CharCount(reader io.Reader) (map[string]int, []int) {
+func CharCount(reader io.Reader) (map[Сategory]int, []int) {
 
-	counts := make(map[string]int)  // counts of Unicode characters
-	var utfLen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
+	counts := make(map[Сategory]int) // counts of Unicode characters
+	var utfLen [utf8.UTFMax + 1]int  // count of lengths of UTF-8 encodings
 
 	in := bufio.NewReader(reader)
 	for {
@@ -49,17 +49,17 @@ func CharCount(reader io.Reader) (map[string]int, []int) {
 		}
 		switch {
 		case unicode.IsControl(r):
-			counts[Control.String()]++
+			counts[Control]++
 		case unicode.IsLetter(r):
-			counts[Letter.String()]++
+			counts[Letter]++
 		case unicode.IsMark(r):
-			counts[Mark.String()]++
+			counts[Mark]++
 		case unicode.IsNumber(r):
-			counts[Number.String()]++
+			counts[Number]++
 		case unicode.IsSpace(r):
-			counts[Space.String()]++
+			counts[Space]++
 		case unicode.IsSymbol(r):
-			counts[Symbol.String()]++
+			counts[Symbol]++
 		}
 		utfLen[n]++
 	}
@@ -67,11 +67,14 @@ func CharCount(reader io.Reader) (map[string]int, []int) {
 }
 
 func main() {
+
 	counts, utfLen := CharCount(os.Stdin)
+
 	fmt.Printf("category\tcount\n")
 	for c, n := range counts {
-		fmt.Printf("%s\t\t%d\n", c, n)
+		fmt.Printf("%s\t\t%d\n", c.String(), n)
 	}
+
 	fmt.Print("\nlen\tcount\n")
 	for i, n := range utfLen {
 		if i > 0 {

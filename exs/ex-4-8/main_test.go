@@ -26,25 +26,25 @@ func TestWithoutArgs(t *testing.T) {
 
 // !+test
 func TestReverse(t *testing.T) {
-	var emptyMap = make(map[string]int)
+	var emptyMap = make(map[Сategory]int)
 	var zeroSlice = make([]int, utf8.UTFMax+1)
 	var tests = []struct {
 		input string
-		want1 map[string]int
+		want1 map[Сategory]int
 		want2 []int
 	}{
 		{"", emptyMap, zeroSlice},
-		{"a", map[string]int{Letter.String(): 1}, []int{0, 1, 0, 0, 0}},
+		{"a", map[Сategory]int{Letter: 1}, []int{0, 1, 0, 0, 0}},
 		{
 			`poekgpjem'vpjm905g ijg 4805u 04tj-20i349058839^$&*&*(@@)*#_)(*(*&(*^
 зуок0пего4хщшопжмь лцд.о45они  ькдеь0495686988085?%((*"_*"_;"+;)%(*:
 `,
-			map[string]int{
-				Control.String(): 2,
-				Letter.String():  49,
-				Number.String():  37,
-				Space.String():   6,
-				Symbol.String():  4,
+			map[Сategory]int{
+				Control: 2,
+				Letter:  49,
+				Number:  37,
+				Space:   6,
+				Symbol:  4,
 			},
 			[]int{0, 110, 28, 0, 0},
 		},
